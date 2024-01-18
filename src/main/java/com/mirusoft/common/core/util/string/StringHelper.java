@@ -1,34 +1,13 @@
 package com.mirusoft.common.core.util.string;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class StringHelper {
 
     //문자개수 세기
-    public static Map<Character, Integer> countDuplicateCharactersV1(String str) {
-
-        if (str == null || str.isBlank()) {
-            // or throw IllegalArgumentException
-            return Collections.emptyMap();
-        }
-
-        Map<Character, Integer> result = new HashMap<>();
-
-        // or use for(char ch: str.toCharArray()) { ... }
-        for (int i = 0; i < str.length(); i++) {
-            char ch = str.charAt(i);
-
-            result.compute(ch, (k, v) -> (v == null) ? 1 : ++v);
-        }
-
-        return result;
-    }
-
-    public static Map<Character, Long> countDuplicateCharactersV2(String str) {
+    public static Map<Character, Long> countDuplicateCharacters(String str) {
 
         if (str == null || str.isBlank()) {
             // or throw IllegalArgumentException
@@ -43,7 +22,7 @@ public class StringHelper {
     }
 
     //숫자만 포함하는 문자열인지 검사
-    public static boolean containsOnlyDigitsV3(String str) {
+    public static boolean containsOnlyDigits(String str) {
 
         if (str == null || str.isBlank()) {
             // or throw IllegalArgumentException
@@ -56,7 +35,7 @@ public class StringHelper {
 
 
     //구분자로 여러 문자열 합치기
-    public static String joinByDelimiterV2(char delimiter, String... args) {
+    public static String joinByDelimiter(char delimiter, String... args) {
 
         if (args == null || args.length == 0) {
             // or throw IllegalArgumentException
@@ -67,6 +46,7 @@ public class StringHelper {
                 .collect(Collectors.joining(String.valueOf(delimiter)));
     }
 
+    //문자열 공백제거
     public static String removeWhitespaces(String str) {
 
         if (str == null || str.isEmpty()) {
@@ -76,4 +56,37 @@ public class StringHelper {
 
         return str.replaceAll("\\s", "");
     }
+
+    //중복문자제거
+    public static String removeDuplicates(String str) {
+
+        if (str == null || str.isEmpty()) {
+            // or throw IllegalArgumentException
+            return "";
+        }
+
+        char[] chArray = str.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        Set<Character> chHashSet = new HashSet<>();
+        for (char c : chArray) {
+            if (chHashSet.add(c)) {
+                sb.append(c);
+            }
+
+        }
+        return sb.toString();
+    }
+
+    //특수문자 제거
+    public static String removeCharacterV2(String str, char ch) {
+
+        if (str == null || str.isEmpty()) {
+            // or throw IllegalArgumentException
+            return "";
+        }
+
+        return str.replaceAll(Pattern.quote(String.valueOf(ch)), "");
+    }
+
+
 }
